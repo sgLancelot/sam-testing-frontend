@@ -1,6 +1,11 @@
 import React from 'react'
 import axios from 'axios'
-import { Button, Checkbox, Form } from 'semantic-ui-react'
+import { Button, Checkbox, Form, Container, Header, Select} from 'semantic-ui-react'
+
+const rsvpOptions = [
+  {text:'Yes'},
+  {text:'No'}
+]
 
 const FormExampleForm = () => (
   <Form onSubmit={handleAddGuest}>
@@ -9,12 +14,18 @@ const FormExampleForm = () => (
       <input placeholder='Name' />
     </Form.Field>
     <Form.Field>
-      <label>RSVP</label>
-      <input placeholder='RSVP' />
+      <label>Contact Number</label>
+      <input placeholder='Contact Number' />
     </Form.Field>
     <Form.Field>
-      <Checkbox label='I agree to the Terms and Conditions' />
+      <label>Additional guests</label>
+      <input placeholder='Additional guests' />
     </Form.Field>
+    <Form.Field>
+      <label>Special Dietary Requirements</label>
+      <input placeholder='Special Dietary Requirements' />
+    </Form.Field>
+    <Form.Select label='RSVP' options={rsvpOptions} placeholder='Yes/No' />
     <Button type='submit'>Submit</Button>
   </Form>
 )
@@ -31,7 +42,13 @@ const handleAddGuest = async (event) => {
 
 const App = () => {
   return (
-    <FormExampleForm />
+    <div>
+      <b />
+      <Header as='h2' content='Test Form' textAlign='center' />
+      <Container>
+        <FormExampleForm />
+      </Container>
+    </div>
   )
 }
 
