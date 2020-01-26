@@ -1,52 +1,66 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
-import { Button, Checkbox, Form, Container, Header, Select} from 'semantic-ui-react'
+import { Button, Form, Container, Header} from 'semantic-ui-react'
 
-const rsvpOptions = [
-  {text:'Yes'},
-  {text:'No'}
-]
+// to do: state management for form. POST properly to db.json
 
-const FormExampleForm = () => (
+const FormExampleForm = ({
+  name,
+  contact,
+  additional,
+  handleNameChange,
+  handleContactChange,
+  handleAdditionalChange,
+  handleAddGuest
+}) => (
   <Form onSubmit={handleAddGuest}>
     <Form.Field>
       <label>Name</label>
-      <input placeholder='Name' />
+      <input placeholder='Name' type='text' value={name} onChange={handleNameChange} />
     </Form.Field>
     <Form.Field>
       <label>Contact Number</label>
-      <input placeholder='Contact Number' />
+      <input placeholder='Contact Number' value={contact} onChange={handleContactChange} />
     </Form.Field>
     <Form.Field>
       <label>Additional guests</label>
-      <input placeholder='Additional guests' />
+      <input placeholder='Additional guests' value={additional} onChange={handleAdditionalChange} />
     </Form.Field>
-    <Form.Field>
-      <label>Special Dietary Requirements</label>
-      <input placeholder='Special Dietary Requirements' />
-    </Form.Field>
-    <Form.Select label='RSVP' options={rsvpOptions} placeholder='Yes/No' />
     <Button type='submit'>Submit</Button>
   </Form>
 )
 
-const handleAddGuest = async (event) => {
-  event.preventDefault()
-  try {
-    await axios.post('/guests', {"id": 1, "body": "some name"})
-    console.log('successfully added guest!')
-  } catch(exception) {
-    console.log('error adding guets!')
-  }
-}
-
 const App = () => {
+  const [name, setName] = useState('')
+  const [contact, setContact] = useState('')
+  const [additional, setAdditional] = useState('')
+
+  const handleAddGuest = async (event) => {
+    event.preventDefault()
+    try {
+      await axios.post('http://localhost:3001/Guests', {name, contact, additional})
+      setName('')
+      setContact('')
+      setAdditional('')
+      console.log('successfully added guest!')
+    } catch(exception) {
+      console.log('error adding guets!')
+    }
+  }
+
   return (
     <div>
       <b />
       <Header as='h2' content='Test Form' textAlign='center' />
       <Container>
-        <FormExampleForm />
+        <FormExampleForm 
+          name={name}
+          contact={contact}
+          additional={additional}
+          handleNameChange={({target}) => setName(target.value)}
+          handleContactChange={({target}) => setContact(target.value)}
+          handleAdditionalChange={({target}) => setAdditional(target.value)}
+          handleAddGuest={handleAddGuest} />
       </Container>
     </div>
   )
