@@ -38,13 +38,14 @@ const App = () => {
   const handleAddGuest = async (event) => {
     event.preventDefault()
     try {
-      await axios.post('http://localhost:3001/Guests', {name, contact, additional})
+      const postoutput = await axios.post('https://y6u5khlwvg.execute-api.ap-southeast-1.amazonaws.com/api/guests', {name, contact, additional})
       setName('')
       setContact('')
       setAdditional('')
+      console.log(postoutput)
       console.log('successfully added guest!')
     } catch(exception) {
-      console.log('error adding guets!')
+      console.log('error adding guests!')
     }
   }
 
